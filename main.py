@@ -10,7 +10,7 @@ from markups import *
 
 dotenv.load_dotenv()
 bot = telebot.TeleBot(os.getenv("BOT_TOKEN")) #str(os.getenv("BOT_TOKEN"))
-cp = CryptoPay("296738:AAb269bj1je5UDvPrXXAP609YsZwsoDowIz") #os.getenv("PAY_TOKEN")
+cp = CryptoPay(os.getenv("PAY_TOKEN")) #
 
 
 @bot.message_handler(commands=["start"])
