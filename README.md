@@ -1,21 +1,32 @@
 !!!!DISCLAIMER!!!:
+
 This bot is created for educational purposes only and is not created to sell drugs or scams
 
 how to start:
 
-//install requirements and libares
+
+//install requirements and libares	
+
 pip install -r requirements.txt
 
-//creation of variable environments
-BOT_TOKEN = "API TOKEN OF MAIN TELEGRAM BOT"
+//creation of variable environments	
 
-RAT_TOKEN = "API TOKEN OF ADMIN PANEL"
-RAT_PASS = "PASSWORD TO ADMIN PANEL"
+BOT_TOKEN = "API TOKEN OF MAIN TELEGRAM BOT"	
 
-PAY_TOKEN = "API TOKEN OF CRYPTO BOT MARKET"
 
-//start main bot
-python main.py
+RAT_TOKEN = "API TOKEN OF ADMIN PANEL"	
 
-//start admin-panel bot
-python rat.py
+RAT_PASS = "PASSWORD TO ADMIN PANEL"	
+
+
+PAY_TOKEN = "API TOKEN OF CRYPTO BOT MARKET"	
+
+	
+//start main bot	
+
+python main.py	
+
+	
+//start admin-panel bot	
+
+python rat.py	
