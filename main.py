@@ -2,7 +2,7 @@ import telebot
 import dotenv
 import os
 
-from cryptopay import CryptoPay
+from aiocpa import CryptoPay
 from database import *
 from telebot import types
 #from headers import *
