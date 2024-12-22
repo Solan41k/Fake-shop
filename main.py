@@ -123,9 +123,9 @@ def main_han(message):
                     bot.reply_to(message,"Выберете ваш город: ",reply_markup = city_markup())
                     bot.register_next_step_handler(message,update_us_city)
                 case "Работа🥷":
-                    bot.send_message(message.chat.id,"Мы предлагаем лучшие условия, и в любои случае не грозим расправой❤️\nПисать сюда: @")
+                    bot.send_message(message.chat.id,f"Мы предлагаем лучшие условия, и в любои случае не грозим расправой❤️\nПисать сюда: @{os.getenv("SUPPORT_ACOUNT")}")
                 case"Поддержка👨‍💻":
-                    bot.send_message(message.chat.id,"Аккаунт тех поддержки: @")
+                    bot.send_message(message.chat.id,f"Аккаунт тех поддержки: @{os.getenv("SUPPORT_ACOUNT")}")
                 case "/start":
                     start(message)
                 case _:
