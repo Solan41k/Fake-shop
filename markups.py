@@ -34,7 +34,7 @@ def produts_markup():
 
 def method_pay_markup(product_id):
     markup= types.InlineKeyboardMarkup()
-    for el,met in [("Банковская карта💳","BK"),("Crypto Bot💵","CB")]: #,("Stars💫","S")
+    for el,met in [("Банковская карта💳","BK"),]:#("Crypto Bot💵","CB")]: #,("Stars💫","S")
         markup.add(types.InlineKeyboardButton(el,callback_data=f"paymethod|{met}|{product_id}"))
     markup.add(types.InlineKeyboardButton("<- Назад",callback_data=f"products|{product_id}"))
     return markup
