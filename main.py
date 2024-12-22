@@ -2,7 +2,7 @@ import telebot
 import dotenv
 import os
 
-from aiocpa import CryptoPay
+#from aiocpa import CryptoPay
 from database import *
 from telebot import types
 #from headers import *
@@ -10,7 +10,7 @@ from markups import *
 
 dotenv.load_dotenv()
 bot = telebot.TeleBot(os.getenv("BOT_TOKEN")) #str(os.getenv("BOT_TOKEN"))
-cp = CryptoPay(os.getenv("PAY_TOKEN")) #
+#cp = CryptoPay(os.getenv("PAY_TOKEN")) #
 
 
 @bot.message_handler(commands=["start"])
@@ -178,14 +178,14 @@ def enter_quantity(message,id,min_order,paymethod):
             if not input_<min_order:
                 _,_,price,_,_,min_order = get_products(id)
                 match paymethod:
-                    case "CB":
-                        try:
-                            create_order(message,id,input_)
-                        except Exception as e:
-                            if 'AMOUNT_TOO_BIG' in str(e):
-                                bot.delete_message(message.chat.id,message.message_id)
-                                bot.send_message(message.chat.id,"Слишком огромная сума, введите суму поменьше:")
-                                bot.register_next_step_handler(message,enter_quantity,id,min_order,paymethod)
+                    #case "CB":
+                     #   try:
+                      #      create_order(message,id,input_)
+                       # except Exception as e:
+                        #    if 'AMOUNT_TOO_BIG' in str(e):
+                         #       bot.delete_message(message.chat.id,message.message_id)
+                          #      bot.send_message(message.chat.id,"Слишком огромная сума, введите суму поменьше:")
+                           #     bot.register_next_step_handler(message,enter_quantity,id,min_order,paymethod)
                     case "BK":
                         # print(get_cards())
                         text ="<b>📎Список всех карт: </b>\n\n"
@@ -208,41 +208,41 @@ def enter_quantity(message,id,min_order,paymethod):
 def create_order(message,product_id,quantity):
     try:
         _,name,price,unit_type,_,min_order = get_products(product_id)
-        invoice = cp.create_invoice(amount=price*quantity,currency_type="fiat",fiat="RUB",expires_in=180)#,fiat=True,description="Оплата товара",)
-        markup = types.InlineKeyboardMarkup()
-        markup.add(types.InlineKeyboardButton("Оплатить",url=invoice.pay_url))
-        markup.add(types.InlineKeyboardButton("Проверить",callback_data=f"invoice|check|{invoice.invoice_id}"))
-        markup.add(types.InlineKeyboardButton("Отменить",callback_data=f"invoice|delete|{invoice.invoice_id}"))
-        bot.send_message(message.chat.id,"Оплатите счет и в ближайшем времени свами свяжутся раскажут все подробности",reply_markup=markup)
+        #invoice = cp.create_invoice(amount=price*quantity,currency_type="fiat",fiat="RUB",expires_in=180)#,fiat=True,description="Оплата товара",)
+        #markup = types.InlineKeyboardMarkup()
+        #markup.add(types.InlineKeyboardButton("Оплатить",url=invoice.pay_url))
+        #markup.add(types.InlineKeyboardButton("Проверить",callback_data=f"invoice|check|{invoice.invoice_id}"))
+        #markup.add(types.InlineKeyboardButton("Отменить",callback_data=f"invoice|delete|{invoice.invoice_id}"))
+        #bot.send_message(message.chat.id,"Оплатите счет и в ближайшем времени свами свяжутся раскажут все подробности",reply_markup=markup)
     except Exception as e:
         print("loh")
         print(e)
             
 
-@bot.callback_query_handler(func=lambda call:call.data.startswith("invoice"))
-def invoice_(callback):
-    data = callback.data.split("|")
-    _,met,invoice_id = data
-    if invoice_id:
-        match met:
-            case "check":
-                invoice = cp.get_invoices(invoice_ids=[invoice_id])[0]
-                match invoice.status:
-                    case "active":
-                        bot.send_message(callback.message.chat.id,"Вы ещё не оплатили!")
-                    case "paid":
-                        bot.edit_message_text("Вы успешно оплатили в ближайшем времени с вами свяжутся",callback.message.chat.id,callback.message.message_id)
-                    case _:
-                        bot.edit_message_text("Счет не найден или удален",callback.message.chat.id,callback.message.message_id)
-            case "delete":
-                try:
-                    cp.delete_invoice(invoice_id)
-                    bot.edit_message_text("Отменено",callback.message.chat.id,callback.message.message_id)
-                except:
-                    bot.send_message(callback.message.chat.id,"Произошла ошибка")
-                    bot.delete_message(callback.message.chat.id,callback.message.message_id)
-    else:
-        bot.edit_message_text("Счет не найден или удален",callback.message.chat.id,callback.message.message_id)
+#@bot.callback_query_handler(func=lambda call:call.data.startswith("invoice"))
+#def invoice_(callback):
+#   data = callback.data.split("|")
+#    _,met,invoice_id = data
+#    if invoice_id:
+#        match met:
+#            case "check":
+#                invoice = cp.get_invoices(invoice_ids=[invoice_id])[0]
+#                match invoice.status:
+#                    case "active":
+#                        bot.send_message(callback.message.chat.id,"Вы ещё не оплатили!")
+#                    case "paid":
+#                        bot.edit_message_text("Вы успешно оплатили в ближайшем времени с вами свяжутся",callback.message.chat.id,callback.message.message_id)
+#                    case _:
+#                        bot.edit_message_text("Счет не найден или удален",callback.message.chat.id,callback.message.message_id)
+#            case "delete":
+#                try:
+#                    cp.delete_invoice(invoice_id)
+#                    bot.edit_message_text("Отменено",callback.message.chat.id,callback.message.message_id)
+#                except:
+#                    bot.send_message(callback.message.chat.id,"Произошла ошибка")
+#                    bot.delete_message(callback.message.chat.id,callback.message.message_id)
+ #   else:
+ #       bot.edit_message_text("Счет не найден или удален",callback.message.chat.id,callback.message.message_id)
         
 
 bot.infinity_polling()
