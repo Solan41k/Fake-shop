@@ -1,15 +1,10 @@
-import telebot
-import dotenv
 import os
 
 #from aiocpa import CryptoPay
 from database import *
 from telebot import types
-#from headers import *
+from headers import bot
 from markups import *
-
-dotenv.load_dotenv()
-bot = telebot.TeleBot(os.getenv("BOT_TOKEN")) #str(os.getenv("BOT_TOKEN"))
 #cp = CryptoPay(os.getenv("PAY_TOKEN")) #
 
 
@@ -123,9 +118,9 @@ def main_han(message):
                     bot.reply_to(message,"Выберете ваш город: ",reply_markup = city_markup())
                     bot.register_next_step_handler(message,update_us_city)
                 case "Работа🥷":
-                    bot.send_message(message.chat.id,f"Мы предлагаем лучшие условия, и в любои случае не грозим расправой❤️\nПисать сюда: @{os.getenv('SUPPORT_ACOUNT')}")
+                    bot.send_message(message.chat.id,f"Мы предлагаем лучшие условия, и в любои случае не грозим расправой❤️\nПисать сюда: @{os.getenv('SUPPORT_ACOUNT')}") 
                 case"Поддержка👨‍💻":
-                    bot.send_message(message.chat.id,f"Аккаунт тех поддержки: @{os.getenv('SUPPORT_ACOUNT')}")
+                    bot.send_message(message.chat.id,f"Аккаунт тех поддержки: @{os.getenv('SUPPORT_ACOUNT')}") #
                 case "/start":
                     start(message)
                 case _:

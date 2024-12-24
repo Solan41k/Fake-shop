@@ -1,6 +1,4 @@
-import telebot
 from telebot import types
-#from headers import *
 from database import *
 
 main_button = ["Каталог🗃","Город🏙","/start","Выберете пункт из меню⏬","Работа🥷","Поддержка👨‍💻"]

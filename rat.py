@@ -1,19 +1,12 @@
-import telebot
-import sqlite3
-import dotenv
-import os
-
 from telebot import types
 from database import *
+from headers import ratbot,rozsilka,passw
 
-dotenv.load_dotenv()
-ratbot = telebot.TeleBot(os.getenv("RAT_TOKEN"))
-button = ["Все пользователи","Карты","Удалить карту","Добавить карту","Искать пользователя по id","Удалить пользователя"]
-passw = os.getenv("RAT_PASS")
+button = ["Все пользователи","Карты","Удалить карту","Добавить карту","Искать пользователя по id","Удалить пользователя","Разсылка"]
+
 
 @ratbot.message_handler(commands=["start"])
 def start(message):
-    print(os.getenv("RAT_PASS"))
     markup = types.ReplyKeyboardMarkup()
     for el in button:
         markup.add(types.KeyboardButton(el))
@@ -39,8 +32,8 @@ def mainhan(message,button:str):
                 text = ''   
                 try:   
                     for chat_id,tg_username,city,rayon in get_users():
-                        text += f"id: {chat_id} username: @{tg_username} Город: {city} Район: {rayon}\n\n" 
-                    ratbot.send_message(message.chat.id,text)
+                        text += f"id: <code>{chat_id}</code> username: @{tg_username} Город: {city} Район: {rayon}\n\n" 
+                    ratbot.send_message(message.chat.id,text,parse_mode="HTML")
                 except Exception as e:
                     if not get_users():
                         ratbot.send_message(message.chat.id,"No one users found")
@@ -64,9 +57,15 @@ def mainhan(message,button:str):
             case "Удалить пользователя":
                 ratbot.send_message(message.chat.id,"Введите id пользователя: ")
                 ratbot.register_next_step_handler(message,delete_user)
+            case "Разсылка":
+                ratbot.send_message(message.chat.id,"Введите текст для розсылки всем пользователям")
+                ratbot.register_next_step_handler(message,rozsilka)
+                
     else:
         ratbot.send_message(message.chat.id,"Неправильный пароль введите ещё раз: ")
         ratbot.register_next_step_handler(message,mainhan,button)
+
+
 
 def delete_user(message):
     try:
