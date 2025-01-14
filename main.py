@@ -183,12 +183,14 @@ def enter_quantity(message,id,min_order,paymethod):
                            #     bot.register_next_step_handler(message,enter_quantity,id,min_order,paymethod)
                     case "BK":
                         # print(get_cards())
+                        try: bot.delete_messages(message.chat.id,[message.message_id,message.message_id-1])
+                        except:pass
                         text ="<b>📎Список всех карт: </b>\n\n"
                         for c_id,c,a in get_cards():
                             text += f"💳 {c_id} - <code>{c}</code>\n└🇷🇺{a}\n\n"
                         text +=f"\n\nСкиньте на одну из этих карт {input_ *price}₽ и пришлите в тех.поддержку👨‍💻 чек оплаты📃 \nПосле проверки оплаты товар будут направлятся к вам"
-                        bot.send_message(message.chat.id,text,parse_mode="HTML")
-            else:
+                        bot.send_message(message.chat.id,text,parse_mode="HTML",reply_markup=types.InlineKeyboardMarkup().add(types.InlineKeyboardButton("<- Назад в каталог",callback_data="take_order|back")))
+            else: 
                 bot.send_message(message.chat.id,f"Минимально количество для покупки {min_order}! Введите ещё раз")
                 bot.register_next_step_handler(message,enter_quantity,id,min_order,paymethod)
         else:

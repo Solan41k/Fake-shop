@@ -15,7 +15,8 @@ while True:
             try:
                 rez = cur.fetchall()
                 if rez:  # Якщо є результат запиту
-                    print(rez)
+                    for el in rez:
+                        print(el)
             except:
                 pass
             conn.commit()  # Зберігаємо зміни
